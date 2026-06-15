@@ -1,0 +1,119 @@
+:root{
+    /*-----------colors ----------------*/
+    --body-background-color:hsl(185, 41%, 84%);
+
+
+   /*---------gaps----------------------*/
+   --main-container-gap:2rem;
+
+   /*--------colors--------------------*/
+   --hell-gray-text:hsl(184, 14%, 56%);
+   --mittle-dark-gray-text:hsl(186, 14%, 43%);
+   --dark-gray-text:hsl(183, 100%, 15%);
+   --hell-green-text:hsl(172, 67%, 45%);
+   --dark-green-text:hsl(172, 66%, 27%);
+}
+html,body{
+    margin:0;
+    padding:0;
+    
+    min-height:100vh;
+    height:auto;
+    background-color: var(--body-background-color);
+    padding-top:3rem;
+    padding-bottom: 8rem;
+    display:flex;
+    flex-direction: column;
+    align-items: stretch;
+    
+    gap:5rem;
+    font-family: Space Mono;
+}
+p,h1,h2{
+    padding:0;
+    margin:0;
+    font-weight: 700;
+}
+h2{
+    color:var(--mittle-dark-gray-text);
+}
+button, input{
+    font-family: Space Mono;
+}
+.container-splitter{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+h1{
+    width:4ch;
+    /*text-align: center;*/
+    color:var(--dark-green-text);
+    letter-spacing: 15px;
+}
+#root{
+    min-height:100vh;
+    
+    margin:0;
+    padding:0;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    
+}
+.main-container{
+    width:100%;
+    border-top-left-radius: 25px;
+    border-top-right-radius:25px;
+    padding-top:2rem;
+    padding-bottom: 5rem;
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+    border:1px solid black;
+    background-color: hsl(0, 100%, 100%);
+    box-sizing: border-box;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap:var(--main-container-gap);
+}
+.right-part,.left-part{
+    width:100%;
+}
+.left-part{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap:1rem;
+}
+.error-part{
+    color:red;
+    font-size: 10px;
+}
+@media(min-width:400px){
+    .main-container{
+        width:80%;
+        
+    }
+}
+
+@media(min-width:900px){
+    .body{
+        padding-bottom: 10rem;
+    }
+    .main-container{
+        width:90%;
+        height:80vh;
+        border-radius:25px;
+        flex-direction: row;
+        align-items: stretch;
+    }
+    .left-part{
+        flex:1;
+    }
+    .right-part{
+        flex:1;
+    }
+}

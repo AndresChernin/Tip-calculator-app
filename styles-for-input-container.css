@@ -1,0 +1,51 @@
+.input-part{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    gap:0.5rem;
+}
+.input-part-input-wrapper{
+    width:100%;
+    background-color: hsl(189, 47%, 97%);
+    border-radius: 10px;
+    padding-left:1rem;
+    padding-right:1rem;
+    padding-top:0.6rem;
+    padding-bottom: 0.6rem;
+    box-sizing: border-box;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+.input-part-input-wrapper:focus-within{
+ border:2px solid var(--hell-green-text);
+}
+.input-part-bill-part{
+    background-color:hsl(189, 47%, 97%);
+    width:10rem;
+    border:none;
+    text-align: right;
+    border:none; 
+    outline:none;
+    cursor: pointer;
+    font-size:2rem; 
+    font-weight:700;
+    color:var(--hell-green-text);
+}
+.input-part-bill-part:focus-within{
+  color:var(--hell-green-text);
+    
+}
+.dollar-part{
+    height: 2rem;
+    padding:0;
+    margin:0;
+}
+.h2-error-part{
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}

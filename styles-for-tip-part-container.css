@@ -1,0 +1,63 @@
+.tip-buttons-part{
+    width:100%;
+
+}
+.tip-grid-part{
+    padding-top:1rem; 
+    display:grid; 
+    grid-template-columns: repeat(2, 1fr);
+     grid-template-rows: repeat(3, 1fr);
+      gap:1rem; 
+      width:100%; 
+    } 
+.tip-grid-part button, .custom-input{ 
+    padding:1rem; 
+    border:none; 
+    border-radius:10px; 
+    font-size:1.2rem;
+    font-weight: 700;
+    box-sizing: border-box;
+    width:100%;
+} 
+.tip-grid-part button{ 
+    background-color:var(--dark-green-text); 
+    color:white;
+     cursor:pointer; 
+ } 
+ .tip-grid-part button:focus-within{ 
+    background-color:var(--hell-green-text); 
+    color:var(--dark-gray-text);
+     
+ } 
+
+.custom-input{ 
+    background-color:hsl(189, 47%, 97%); 
+    text-align:center;
+    border:none;
+    cursor:pointer;
+    
+    color: var(--hell-green-text);
+}
+ 
+ .custom-input:focus{
+    outline:none;
+    border:2px solid var(--hell-green-text);
+    color: var(--hell-green-text);
+ }
+ .error-container{
+    width:100%;
+    display: flex;
+   
+ }
+ .right-placement{
+    width:100%;
+    padding-top:0.2rem;
+    text-align: right;
+    
+ }
+ .middle-placement{
+    width:100%;
+    padding-top:0.2rem;
+    text-align: center;
+    
+ }
