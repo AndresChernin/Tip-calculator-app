@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip calculator app</title>
+    
+    
+    <link rel="stylesheet" href="styles-for-main-container.css">
+    <link rel="stylesheet" href="styles-for-input-container.css">
+    <link rel="stylesheet" href="styles-for-tip-part-container.css">
+    <link rel="stylesheet" href="styles-number-of-persons-container.css">
+    <link rel="stylesheet" href="styles-for-output-part-container.css">  
+  
+    <link href=
+    "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap" 
+    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@300;400;700;900&display=swap"
+ rel="stylesheet">
+    
+  </head>
+  <body>
+    <div class="container-splitter">
+    <h1>SPLI</h1>
+    <h1>TTER</h1>
+    </div>
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    
+    
+    <script src="InputComponent.jsx" type="text/babel"></script>
+    <script src="TipButtonsComponent2.jsx" type="text/babel"></script>
+    <script src="OutputComponent.jsx" type="text/babel"></script>
+    <script src="TipCalculator.js" type="text/babel"></script>
+    <script src="Controller.js" type="text/babel"></script>
+   <!-- <script src="NumberOfPersons.jsx" type="text/babel"></script>
+    
+    
+    
+    <script src="bankData.js"></script>
+    <script src="articlesData.js"></script>-->
+    <!--/*<script src="MiddleComponent.jsx" type="text/babel"></script>
+    <script src="LowerComponent.jsx" type="text/babel"></script>
+    <script src="SuccessComponent.jsx" type="text/babel"></script>
+    <script src="ValidationModel.mjs"></script>*/}-->
+    <script type="text/babel">
+      
+
+
+       function App(){
+
+        const [results, setResults]=React.useState(
+          {tip:"--",
+           payment:"--"
+          });
+        const[values, setValues]=React.useState(
+          {
+            bill:"",
+            
+            peoples:""
+          });
+        const[errors, setErrors]=React.useState(
+          {
+            bill:"",
+            
+            peoples:""
+          });
+          const[procents,setProcents]=React.useState(
+            {
+              buttonProcents:"",
+              inputProcents:""
+            }
+          );
+          const[errorsProcents,setErrorsProcents]=React.useState(
+           {
+            buttonProcents:"",
+            inputProcents:""
+           }
+          );
+        const emptyErrors={bill:"", peoples:""};
+        const emptyErrorsProcents={buttonProcents:"",inputProcents:""};
+        const emptyValues={bill:"", peoples:""};
+        const emptyResults={tip:"--",payment:"--"};
+        const emptyProcents={
+          buttonProcents:"",inputProcents:""
+        }
+
+          const controller=React.useRef(
+          new Controller(new TipCalculator())).current;
+
+        function noErrors(errors){
+          return Object.values(errors).every(e=>e==="");
+        }
+
+        function handleCountClick(){
+          if(noErrors(errors)){
+            const finalErrors=controller.validateEmptyInputs(values);
+            console.log(`finalErros:${(JSON.stringify(finalErrors))}`);
+            const finalErrorsProcents=controller.validateEmptyProcents(procents);
+            console.log(`finalProcentsErros:${(JSON.stringify(finalErrorsProcents))}`);
+             if(noErrors(finalErrors) && noErrors(finalErrorsProcents)){
+              const finalResults=controller.sendResults(values,procents);
+
+             console.log(`finalResults:${(JSON.stringify(finalResults))}`);
+             setResults(finalResults);
+             }
+             else{
+              setErrors(finalErrors);
+              setErrorsProcents(finalErrorsProcents);
+             }
+             
+          }
+         
+        }
+        function handleResetClick(){
+          setResults(emptyResults);
+          setErrors(emptyErrors);
+          setValues(emptyValues);
+          setProcents(emptyProcents);
+          setErrorsProcents(emptyErrorsProcents);
+        }
+        function handleChangeOfInput(field){
+          return(event)=>{
+            const newValue=event.target.value;
+            const newValues={...values,[field]:newValue};
+            setValues(newValues);
+            console.log(`values:${(JSON.stringify(newValues))}`);
+            const newErrors=controller.validateAllLive(newValues);
+            setErrors(newErrors);
+            
+          }
+        }
+        function handleChangeOfProcentInput(){
+          
+            const newProcentsValue=event.target.value;
+            console.log(`newProcentsValeus:${(JSON.stringify(newProcentsValue))}`);
+            
+            const newProcents={buttonProcents:"",
+                               inputProcents:newProcentsValue};
+            setProcents(newProcents);
+            const newErrorsProcentsInput=controller.validateInputLive("procents", newProcentsValue);
+            console.log(`newErrorsProcentsInput:${(JSON.stringify(newErrorsProcentsInput))}`);
+
+            if(newErrorsProcentsInput===""){
+             
+              setErrorsProcents({
+                                 buttonProcents: "",
+                                 inputProcents: ""
+                                });
+            }
+            else{
+              const newErrorsProcents={buttonProcents:"",
+                               inputProcents:newErrorsProcentsInput};
+              setErrorsProcents(newErrorsProcents);
+            }
+            
+          
+          
+          
+        }
+        function handleProcentButtonClick(procents){
+          return(event)=>{
+            
+            const newProcents={buttonProcents:String(procents),
+                               inputProcents:""
+            };
+            setProcents(newProcents);
+            setErrorsProcents(emptyErrorsProcents);
+          }
+        }
+        return(
+          <main className={"main-container"} >
+             <div className="left-part">
+               <InputComponent img_link="./images/icon-dollar.svg"
+                               h2_tag="Bill"
+                               error={errors.bill}
+                               initialText="0.00"
+                               value={values.bill}
+                               inputFunction={handleChangeOfInput("bill")} />
+               <TipButtonsComponent2
+                               errors={errorsProcents}
+                               values={procents}
+                               inputFunction={handleChangeOfProcentInput}
+                               buttonFunction={handleProcentButtonClick} />
+               <InputComponent img_link="./images/icon-person.svg"
+                               h2_tag="Number of People"
+                               error={errors.peoples}
+                               initialText="0"
+                               value={values.peoples}
+                               inputFunction={handleChangeOfInput("peoples")} />
+            </div>
+            <div className="right-part">
+              <OutputComponent results={results} 
+                               countFunction={handleCountClick}
+                               resetFunction={handleResetClick}
+                                />
+            </div>
+          </main>
+         )      
+         
+       }
+      const container = document.querySelector('#root');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

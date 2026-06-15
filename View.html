@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time tracking dashboard</title>
+    
+    
+    <link rel="stylesheet" href="styles-for-main-container.css">
+    <link rel="stylesheet" href="styles-for-input-container.css">
+    <link rel="stylesheet" href="styles-for-tip-part-container.css">
+    <link rel="stylesheet" href="styles-number-of-persons-container.css">
+    <link rel="stylesheet" href="styles-for-output-part-container.css">  
+  
+    <link href=
+    "https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap" 
+    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@300;400;700;900&display=swap"
+ rel="stylesheet">
+    
+  </head>
+  <body>
+    <div class="container-splitter">
+    <h1>SPLI</h1>
+    <h1>TTER</h1>
+    </div>
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    
+    
+    <script src="InputComponent.jsx" type="text/babel"></script>
+    <script src="TipButtonsComponent.jsx" type="text/babel"></script>
+    <script src="OutputComponent.jsx" type="text/babel"></script>
+    <script src="TipCalculator.js" type="text/babel"></script>
+    <script src="COntroller.js" type="text/babel"></script>
+   <!-- <script src="NumberOfPersons.jsx" type="text/babel"></script>
+    
+    
+    
+    <script src="bankData.js"></script>
+    <script src="articlesData.js"></script>-->
+    <!--/*<script src="MiddleComponent.jsx" type="text/babel"></script>
+    <script src="LowerComponent.jsx" type="text/babel"></script>
+    <script src="SuccessComponent.jsx" type="text/babel"></script>
+    <script src="ValidationModel.mjs"></script>*/}-->
+    <script type="text/babel">
+      
+
+
+       function App(){
+
+        const [results, setResults]=React.useState(
+          {tip:"--",
+           payment:"--"
+          });
+        const[values, setValues]=React.useState(
+          {
+            bill:"",
+            procents:"",
+            peoples:""
+          });
+        const[errors, setErrors]=React.useState(
+          {
+            bill:"",
+            procents:"",
+            peoples:""
+          });
+        const emptyErrors={bill:"",procents:"", peoples:""};
+        const emptyValues={bill:"",procents:"", peoples:""};
+        const emptyResults={tip:"--",payment:"--"};
+
+
+          const controller=React.useRef(
+          new Controller(new TipCalculator())).current;
+
+        function noErrors(errors){
+          return Object.values(errors).every(e=>e==="");
+        }
+
+        function handleCountClick(){
+          if(noErrors(errors)){
+            const finalErrors=controller.validateEmptyInputs(values);
+             if(noErrors(finalErrors)){
+              const finalResults=controller.sendResults(values);
+             console.log(`finalResults:${(JSON.stringify(finalResults))}`);
+             setResults(finalResults);
+             }
+             else{
+              setErrors(finalErrors);
+             }
+             
+          }
+         
+        }
+        function handleResetClick(){
+          setResults(emptyResults);
+          setErrors(emptyErrors);
+          setValues(emptyValues);
+        }
+        function handleChangeOfInput(field){
+          return(event)=>{
+            const newValue=event.target.value;
+            const newValues={...values,[field]:newValue};
+            setValues(newValues);
+            console.log(`values:${(JSON.stringify(newValues))}`);
+            const newErrors=controller.validateAllLive(newValues);
+            setErrors(newErrors);
+            
+          }
+        }
+        function handleProcentButtonClick(procents){
+          return(event)=>{
+            
+            const newValues={...values,procents:String(procents)};
+            setValues(newValues);
+          }
+        }
+        return(
+          <main className={"main-container"} >
+             <div className="left-part">
+               <InputComponent img_link="./images/icon-dollar.svg"
+                               h2_tag="Bill"
+                               error={errors.bill}
+                               initialText="0.00"
+                               value={values.bill}
+                               inputFunction={handleChangeOfInput("bill")} />
+               <TipButtonsComponent
+                               error={errors.procents}
+                               value={values.procents}
+                               inputFunction={handleChangeOfInput("procents")}
+                               buttonFunction={handleProcentButtonClick} />
+               <InputComponent img_link="./images/icon-person.svg"
+                               h2_tag="Number of People"
+                               error={errors.peoples}
+                               initialText="0"
+                               value={values.peoples}
+                               inputFunction={handleChangeOfInput("peoples")} />
+            </div>
+            <div className="right-part">
+              <OutputComponent results={results} 
+                               countFunction={handleCountClick}
+                               resetFunction={handleResetClick}
+                                />
+            </div>
+          </main>
+         )      
+         
+       }
+      const container = document.querySelector('#root');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
