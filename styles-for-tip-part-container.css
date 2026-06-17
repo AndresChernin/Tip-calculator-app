@@ -29,7 +29,10 @@
     color:var(--dark-gray-text);
      
  } 
-
+.tip-grid-part button.selected{
+    background-color:var(--hell-green-text); 
+    color:var(--dark-gray-text);
+}
 .custom-input{ 
     background-color:hsl(189, 47%, 97%); 
     text-align:center;
